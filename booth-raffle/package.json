@@ -2,10 +2,12 @@
   "name": "vrf-raffle",
   "license": "MIT",
   "scripts": {
-    "compile": "hardhat compile"
+    "compile": "hardhat compile",
+    "test": "hardhat test"
   },
   "devDependencies": {
-    "@chainlink/contracts": "^0.4.1",
+    "@chainlink/contracts": "^0.4.2",
+    "@ethereum-waffle/mock-contract": "^3.4.4",
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/providers": "^5.7.0",
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.3",
@@ -19,9 +21,11 @@
     "@types/jest": "^28.1.8",
     "@types/mocha": "^9.1.1",
     "chai": "^4.3.6",
+    "dotenv": "^16.0.2",
     "ethers": "^5.7.0",
     "hardhat": "^2.10.2",
     "hardhat-gas-reporter": "^1.0.8",
+    "merkletreejs": "^0.2.32",
     "solidity-coverage": "^0.7.21",
     "ts-node": "^10.9.1",
     "typechain": "^8.1.0",

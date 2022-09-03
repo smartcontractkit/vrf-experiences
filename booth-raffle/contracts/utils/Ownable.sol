@@ -24,19 +24,17 @@ abstract contract Ownable {
     }
 
     constructor(address newOwner, address pendingOwner) {
-        if(newOwner == address(0))
-            revert CannotSetOwnerToZeroAddress();
+        if (newOwner == address(0)) revert CannotSetOwnerToZeroAddress();
 
         _owner = newOwner;
 
-        if(pendingOwner != address(0))
-            _transferOwnership(pendingOwner);
+        if (pendingOwner != address(0)) _transferOwnership(pendingOwner);
     }
 
     /**
-     * @notice Requests ownership transfer to the new address which needs to accept it. 
+     * @notice Requests ownership transfer to the new address which needs to accept it.
      *
-     * @dev Only owner can call. 
+     * @dev Only owner can call.
      *
      * @param newOwner - address of proposed new owner
      *
@@ -49,13 +47,12 @@ abstract contract Ownable {
     /**
      * @notice Accepts pending ownership transfer request.
      *
-     * @dev Only proposed new owner can call. 
+     * @dev Only proposed new owner can call.
      *
-     * No return, revets on error. 
+     * No return, revets on error.
      */
     function acceptOwnership() external {
-        if(msg.sender != _pendingOwner)
-            revert MustBeProposedOwner();
+        if (msg.sender != _pendingOwner) revert MustBeProposedOwner();
 
         address oldOwner = _owner;
         _owner = msg.sender;
@@ -65,11 +62,11 @@ abstract contract Ownable {
     }
 
     /**
-     * @notice Cancels ownership request transfer. 
+     * @notice Cancels ownership request transfer.
      *
-     * @dev Only owner can call. 
+     * @dev Only owner can call.
      *
-     * No return, reverts on error. 
+     * No return, reverts on error.
      */
     function cancelOwnershipTransfer() external onlyOwner {
         address oldPendingOwner = _pendingOwner;
@@ -79,24 +76,30 @@ abstract contract Ownable {
     }
 
     /**
-     * @notice Gets current owner address. 
+     * @notice Gets current owner address.
      *
      * @return owner
      */
-    function owner() public view returns(address) {
+    function owner() public view returns (address) {
         return _owner;
     }
 
+    /**
+     * @notice Gets pending owner address.
+     *
+     * @return pendingOwner
+     */
+    function getPendingOwner() public view returns (address) {
+        return _pendingOwner;
+    }
+
     function _checkOwner() internal view {
-        if(msg.sender != owner())
-            revert CallerIsNotOwner();
+        if (msg.sender != owner()) revert CallerIsNotOwner();
     }
 
     function _transferOwnership(address newOwner) private {
-        if(newOwner == address(0))
-            revert CannotSetOwnerToZeroAddress();
-        if(newOwner == msg.sender)
-            revert CannotTransferToSelf();
+        if (newOwner == address(0)) revert CannotSetOwnerToZeroAddress();
+        if (newOwner == msg.sender) revert CannotTransferToSelf();
 
         _pendingOwner = newOwner;
 
