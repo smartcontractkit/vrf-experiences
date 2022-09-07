@@ -74,11 +74,27 @@ describe(`BigMac Raffle test scenario with seven winners on Goerli testnet`, asy
       const transaction: ContractTransaction = await bigMacRaffle.connect(owner).runRaffle();
       const transactionReceipt: ContractReceipt = await transaction.wait(1);
       if (!transactionReceipt.events) return;
-      const requestId = transactionReceipt.events[0].topics[2];
+      if (!transactionReceipt.events[1].args) return;
+      const requestId = transactionReceipt.events[1].args[0];
 
       await mockVrfCoordinator.fulfillRandomWords(requestId, bigMacRaffle.address);
       await triggerPromise;
       await expect(bigMacRaffle.connect(owner).runRaffle()).to.be.revertedWithCustomError(bigMacRaffle, `RaffleCanBeRunOnlyOnce`);
+    });
+
+    it("should draw additional winners if someone is unable to attend", async function () {
+      const numberOfAdditionalWinners = 4;
+
+      const transaction: ContractTransaction = await bigMacRaffle.connect(owner).drawAdditionalWinners(numberOfAdditionalWinners);
+      const transactionReceipt: ContractReceipt = await transaction.wait(1);
+      if (!transactionReceipt.events) return;
+      if (!transactionReceipt.events[1].args) return;
+      const requestId = transactionReceipt.events[1].args[0];
+
+      await mockVrfCoordinator.fulfillRandomWords(requestId, bigMacRaffle.address);
+      const winners = await bigMacRaffle.getWinners();
+
+      assert(winners.length === numberOfAdditionalWinners, "Invalid winners number");
     });
   });
 });

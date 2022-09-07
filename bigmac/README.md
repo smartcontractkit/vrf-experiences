@@ -1,8 +1,14 @@
-# Big Mac Raffle
+# Big Mac Raffle 🍔
 
 The contract to determine winners of BigMac lunch with Sergey Nazarov at SmartCon 2022 powered by Chainlink VRF.
 
-## Getting Started
+## Previous Raffles
+
+|     Event     | Transaction Hash |
+| :-----------: | :--------------: |
+| SmartCon 2022 |                  |
+
+## Running Locally
 
 ### Prerequisites
 
