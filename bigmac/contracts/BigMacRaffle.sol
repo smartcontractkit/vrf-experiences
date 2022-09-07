@@ -66,16 +66,22 @@ contract BigMacRaffle is VRFConsumerBaseV2, Ownable {
      */
     function runRaffle() external onlyOwner onlyOnce {
         s_isRaffleStarted = true;
-        
-        uint256 requestId = i_vrfCoordinator.requestRandomWords(
-            i_keyHash,
-            i_subscriptionId,
-            i_requestConfirmations,
-            i_callbackGasLimit,
-            s_numWords
-        );
+        requestRandomWords();
+    }
 
-        emit RaffleStarted(requestId);
+    /**
+     * @notice Draws additional winners if someone is unable to attend the event.
+     *
+     * @dev Only owner can call.
+     *
+     * No return, reverts on error.
+     */
+    function drawAdditionalWinners(uint32 numberOfAdditionalWinners)
+        external
+        onlyOwner
+    {
+        s_numWords = numberOfAdditionalWinners;
+        requestRandomWords();
     }
 
     /**
@@ -87,11 +93,29 @@ contract BigMacRaffle is VRFConsumerBaseV2, Ownable {
         return s_winners.values();
     }
 
+    /**
+     * @notice Requests random values from Chainlink VRF
+     *
+     * No return, reverts on error
+     */
+    function requestRandomWords() internal {
+        uint256 requestId = i_vrfCoordinator.requestRandomWords(
+            i_keyHash,
+            i_subscriptionId,
+            i_requestConfirmations,
+            i_callbackGasLimit,
+            s_numWords
+        );
+
+        emit RaffleStarted(requestId);
+    }
+
     // @inheritdoc
-    function fulfillRandomWords(
-        uint256 requestId,
-        uint256[] memory randomWords
-    ) internal virtual override {
+    function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords)
+        internal
+        virtual
+        override
+    {
         uint256 length = s_numWords;
         for (uint i = 0; i < length; ) {
             bytes32 raffleWinner = s_participants.at(
@@ -152,7 +176,6 @@ contract BigMacRaffle is VRFConsumerBaseV2, Ownable {
         s_participants.add(0x508b8e5e978dc957f3279fc689c0591a9896cecb27f6fd376430af23495f27cb);
         s_participants.add(0x3f71c787d1a8c73c1a5edfa72d74371f431838e43caaa86462b1ba7d5c6b3004);
         s_participants.add(0x348d46b20abba97f1c1d3379171ca92ec1e3ec65458ef01f8c6cbfb201ff7e35);
-        s_participants.add(0xfa4c67caa0c95ca1bf3f734b677909e328d39d08a29ab47be364cc79e1d2b627);
         s_participants.add(0x818e16b1918ebe84fc8bbfebaae5e741d4f893fa699567a672425e2a008c8ecd);
         s_participants.add(0x4de996ca2823268aa9a455032ac62abeafa5a6185383eb1d9ff9774e5d6ac079);
         s_participants.add(0x1e512f1734b34a15b6783bbe4e28ff95360a888f4c4cf873a19287af04b783e8);
@@ -193,7 +216,6 @@ contract BigMacRaffle is VRFConsumerBaseV2, Ownable {
         s_participants.add(0x8f6fe09611cfd593a235f6c890144b8095f523805751f52d72df5725590da6fb);
         s_participants.add(0xf818da10c53ddca3358671567b03cc9622bec9f975bccb6e65be1476d5a3a3ad);
         s_participants.add(0xb8bde07b182974192530e48d284c13c4dfaac44010f0761bdd23113ccb82716a);
-        s_participants.add(0x6300c790fbd9de6fc078505763298e5a0f2fba14c005497fa09bd2ae6b075cc1);
         s_participants.add(0x821406afe228718d2ea5ddb18407633df33d61cab659ad52fb1831ae0bd7ed20);
         s_participants.add(0x52a7b73efebb6783de8ef96bfe0221f694bc63ff7d2c7808ba4ab93de0fdf03d);
         s_participants.add(0x62530d565bf64ab0db0e956394fcf65dcf972a379f4999f4a416701417ecbc4e);
@@ -204,7 +226,6 @@ contract BigMacRaffle is VRFConsumerBaseV2, Ownable {
         s_participants.add(0xe732500575702532c131faceef978523280a74cddf4f562beda21acb11101809);
         s_participants.add(0x9a5a9f9d334e0683c2b0db4f187c0e305e2cfcfefc7ed98dff32af045139be1f);
         s_participants.add(0x4bfccaa52f3b45ce72b2240c2545167c8a9cb98c8d88144445d823a2fb6a8b33);
-        s_participants.add(0x5ce51ea3813f728abf39f1bf4376e7ecb8d5feacfe73a267274980886ddbffba);
         s_participants.add(0x5e054bf362f50357082ad8cb91c0fcb126d281047defda0db23b4f544a3d8eea);
         s_participants.add(0xdbc3c2b2612e13b5b00d27b237155fb8923be9b43a3ba286abbbd6c81dc83252);
         s_participants.add(0x80328085c8eca24b9700c941e677cc95c81345bfb45e88e5db5600c3e414dd2c);
@@ -287,7 +308,6 @@ contract BigMacRaffle is VRFConsumerBaseV2, Ownable {
         s_participants.add(0x433df8cbb680885f5cb234f6d549396123a5d50b048e9b86f7c01cd14d120a18);
         s_participants.add(0xb1c1771fce7fd730607ddaa405683aa8f0ed64101b98f1ef022193ca4d14eddb);
         s_participants.add(0xc1eea1ade90dc5c73cdc05ab99c5fa63192417059d0220fce54b3608bb6a7e6c);
-        s_participants.add(0xb5fb9a542d0b7b5e66d8c698c284e492414ec79757430741bc4f3fa10c70f7cf);
         s_participants.add(0x5397abe91dab12b2c4638237a8f7e48f40d215083eaa6c6d411a198cf6d094f6);
         s_participants.add(0xa1d382488f9cd19e25d82461136bed9b14f8699af0ea60d2368cf00d2027d0c7);
         s_participants.add(0x3bf0d5cfff8e8205755e5a39b63850fbf7d4a6cbaf253d0ce296f804365d5ea4);
@@ -304,14 +324,12 @@ contract BigMacRaffle is VRFConsumerBaseV2, Ownable {
         s_participants.add(0x2a774a6a18bf852efb274420d22726e1d6434347447348c403ac5f0c89edb1ec);
         s_participants.add(0xf3be8e1ed3eba0b0d72d8ddcab36afd7863dd8d2427dbde37efec1616192e2c4);
         s_participants.add(0x954a34624d8e216a78147c2a39638e8d3343de123e92825bf8ca29583bd4ff27);
-        s_participants.add(0x927041f1c44e4769eaf4ee6577ff83866fcded7d701f3bf30a84f386e4c31b92);
         s_participants.add(0x86ff91de2898185b8b084180ca06cdf1e84445d49771edfaeacb89ef7dd91d37);
         s_participants.add(0x6c3e08f9aa08a89a51c94c78c46f7ed132b4c0762b9d8ea93a85f736ab709524);
         s_participants.add(0xd7f97644305b9c8a2d96b743b73cbc62565aa9b5c0b66bbfc2d02d7cfc717169);
         s_participants.add(0x35655d7ea4e2e43c4a716f9947579cb0d2926660d92e821a707284d42c9cfa02);
         s_participants.add(0x8fcc43a5aad6a330d3817c8c7f7d56d9c1d304c39a2c3efa917f3fdfeafd13db);
         s_participants.add(0x839f9736937fa39b656475e0a60f48c821ecfcc6edda659e6b0ba6e8bc2106b4);
-        s_participants.add(0xbc8abde000279f744a7d46da0d636f8c51b328dc02ffbeb2f97b5cc632592db1);
         s_participants.add(0x4dd5caebfe71ad0d24777b7ca74f6d575ed68834521387b2d64cd1c5a3f8f07a);
         s_participants.add(0x6190a0f51058f4b3db43257086facf120030e7c495544e2e22bab7f28f0a89bd);
         s_participants.add(0x462addfec82d4f2cb6a87cca636a7f93293289ec8977987ea079f2691868b0d7);
@@ -366,7 +384,6 @@ contract BigMacRaffle is VRFConsumerBaseV2, Ownable {
         s_participants.add(0xd1e45d09f58ba3e08852f8fb14f49e727a16a3475c082a8035dcd4346d904a2e);
         s_participants.add(0xb69d1869ad1a4ed0d98b681a3c112b1f90a23a0cc9c834f0b16d9271c0b69257);
         s_participants.add(0xde71c7aa758df72f8920ab2a7f4dccd00cc11050d189b2a90bb5276a18a4e797);
-        s_participants.add(0x2c5eaba369031878fe3a1a72c16f45e15b7e1dd940c1b3bb1735d3065a93c4ff);
         s_participants.add(0x0703757bf69f3e81ca7adceb085fc990de377f0a3dcb41f9c847311c54ff510a);
         s_participants.add(0x14afde140ae72111b15ac739a1e53e09b92e435f50c26fa6f14b8089d2ee119b);
         s_participants.add(0x7f5b0c37437eff1959596b189352ea674bb1bb85a443ae7e98706238d8ee1d64);
