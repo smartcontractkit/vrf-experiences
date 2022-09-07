@@ -8,7 +8,7 @@
 	</div>
 	<div class="lg:w-1/4 lg:mx-4">
 		<div class="text-center pt-4 lg:pt-0 text-3xl 2xl:text-5xl font-bold text-accent font-inter">
-			The World's Most Collaborative NFT
+			The Most Collaborative NFT
 		</div>
 		<div class="hidden md:flex justify-center pt-6 2xl:pt-24">
 			<img src="/qr.png" alt="qr code" />
