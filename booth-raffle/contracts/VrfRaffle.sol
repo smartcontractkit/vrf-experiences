@@ -9,7 +9,7 @@ import {Ownable} from "./utils/Ownable.sol";
 
 /**
  * @title The VrfRaffle contract
- * @notice A contract to allow anyone to participate in the Chainlink VRF powered raffle
+ * @notice A contract to allow anyone to participate in the raffle powered by Chainlink VRF
  */
 contract VrfRaffle is VRFConsumerBaseV2, Ownable {
     using EnumerableSet for EnumerableSet.Bytes32Set;
