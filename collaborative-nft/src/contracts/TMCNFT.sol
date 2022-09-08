@@ -190,6 +190,10 @@ contract TLNFT is VRFConsumerBaseV2, ERC721, ERC721URIStorage {
 		_setTokenURI(0, finalTokenURI);
 	}
 
+	function changeCallbackGas(uint32 _callbackGasLimit) public onlyOwner {
+		callbackGasLimit = _callbackGasLimit;
+	}
+
 	modifier onlyOwner() {
 		require(msg.sender == s_owner);
 		_;
