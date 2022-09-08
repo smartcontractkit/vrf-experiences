@@ -4,7 +4,6 @@ pragma solidity ^0.8.10;
 
 import '@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol';
 import '@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol';
-import '@openzeppelin/contracts/token/ERC721/ERC721.sol';
 import '@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol';
 import '@openzeppelin/contracts/utils/Strings.sol';
 import '@openzeppelin/contracts/utils/Base64.sol';
@@ -15,7 +14,7 @@ contract TLNFT is VRFConsumerBaseV2, ERC721, ERC721URIStorage {
 	// Your subscription ID.
 	uint64 s_subscriptionId;
 
-	// Rinkeby coordinator. For other networks,
+	// Coordinator. For other networks,
 	// see https://docs.chain.link/docs/vrf-contracts/#configurations
 	address vrfCoordinator = 0x2Ca8E0C643bDe4C2E08ab1fA0da3401AdAD7734D; // Goerli
 	// address vrfCoordinator = 0x2eD832Ba664535e5886b75D64C46EB9a228C2610; // Fuji
