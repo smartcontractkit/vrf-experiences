@@ -1,5 +1,5 @@
 import { ethers, network, run } from "hardhat";
-import { constants } from "ethers";
+import { BytesLike, constants } from "ethers";
 
 async function main() {
   const subscriptionId = process.env.SUBSCRIPTION_ID;
@@ -11,8 +11,11 @@ async function main() {
   const numWords = 7;
   const owner = `0x6c235B011b85B6b92a60401d235737a11e95B3CD`;
 
+  const participants: BytesLike[] = [];
+
   const bigMacRaffleFactory = await ethers.getContractFactory(`BigMacRaffle`);
   const bigMacRaffle = await bigMacRaffleFactory.deploy(
+    participants,
     subscriptionId,
     vrfCoordinator,
     keyHash,
