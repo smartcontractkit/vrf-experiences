@@ -96,7 +96,7 @@ describe("Vrf Raffle scenario with four winners", async function () {
 
     const participantsBefore = await vrfRaffle.getParticipants();
 
-    const transaction: ContractTransaction = await vrfRaffle.connect(keepersRegistry).requestRandomWords();
+    const transaction: ContractTransaction = await vrfRaffle.connect(keepersRegistry).startRaffle();
     const transactionReceipt: ContractReceipt = await transaction.wait(1);
     if (!transactionReceipt.events) return;
     if (!transactionReceipt.events[1].args) return;

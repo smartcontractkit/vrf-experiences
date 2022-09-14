@@ -174,7 +174,7 @@ describe("VrfRaffle Unit Tests", function () {
 
         await vrfRaffle.connect(user).enterRaffle(hashedTicketConfirmationNumber, proof);
 
-        const tx: ContractTransaction = await vrfRaffle.connect(mockKeepersRegistry).requestRandomWords();
+        const tx: ContractTransaction = await vrfRaffle.connect(mockKeepersRegistry).startRaffle();
         const txReceipt: ContractReceipt = await tx.wait();
         if (!txReceipt.events) return;
         if (!txReceipt.events[1].args) return;
@@ -188,24 +188,24 @@ describe("VrfRaffle Unit Tests", function () {
     });
   });
 
-  describe("#requestRandomWords", async function () {
+  describe("#startRaffle", async function () {
     describe("success", async function () {
       it("should be callable by owner", async function () {
-        await expect(vrfRaffle.connect(owner).requestRandomWords()).to.not.be.reverted;
+        await expect(vrfRaffle.connect(owner).startRaffle()).to.not.be.reverted;
       });
 
       it("should be callable by keepers registry", async function () {
-        await expect(vrfRaffle.connect(mockKeepersRegistry).requestRandomWords()).to.not.be.reverted;
+        await expect(vrfRaffle.connect(mockKeepersRegistry).startRaffle()).to.not.be.reverted;
       });
 
       it("should emit proper event", async function () {
-        expect(await vrfRaffle.connect(owner).requestRandomWords()).to.emit(vrfRaffle, "RaffleStarted");
+        expect(await vrfRaffle.connect(owner).startRaffle()).to.emit(vrfRaffle, "RaffleStarted");
       });
     });
 
     describe("failure", async function () {
       it("should be callable only by owner or keepers registry", async function () {
-        await expect(vrfRaffle.connect(user).requestRandomWords()).to.be.revertedWithCustomError(vrfRaffle, "CallerIsNotOwnerNorKeepersRegistry");
+        await expect(vrfRaffle.connect(user).startRaffle()).to.be.revertedWithCustomError(vrfRaffle, "CallerIsNotOwnerNorKeepersRegistry");
       });
     });
   });
@@ -219,7 +219,7 @@ describe("VrfRaffle Unit Tests", function () {
           await vrfRaffle.connect(user).enterRaffle(hashedTicketConfirmationNumber, proof);
         });
 
-        const tx: ContractTransaction = await vrfRaffle.connect(mockKeepersRegistry).requestRandomWords();
+        const tx: ContractTransaction = await vrfRaffle.connect(mockKeepersRegistry).startRaffle();
         const txReceipt: ContractReceipt = await tx.wait();
         if (!txReceipt.events) return;
         if (!txReceipt.events[1].args) return;

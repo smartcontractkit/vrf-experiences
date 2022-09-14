@@ -118,7 +118,7 @@ contract VrfRaffle is VRFConsumerBaseV2, Ownable {
      *
      * No return, reverts on error.
      */
-    function requestRandomWords() external onlyOwnerOrKeepersRegistry {
+    function startRaffle() external onlyOwnerOrKeepersRegistry {
         uint256 requestId = i_vrfCoordinator.requestRandomWords(
             i_keyHash,
             i_subscriptionId,

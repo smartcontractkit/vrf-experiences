@@ -90,7 +90,7 @@ describe("Vrf Raffle scenario with two and two winners", async function () {
     const participantsBefore = await vrfRaffle.getParticipants();
 
     // first raffle
-    const firstTransaction: ContractTransaction = await vrfRaffle.connect(keepersRegistry).requestRandomWords();
+    const firstTransaction: ContractTransaction = await vrfRaffle.connect(keepersRegistry).startRaffle();
     const firstTransactionReceipt: ContractReceipt = await firstTransaction.wait(1);
     if (!firstTransactionReceipt.events) return;
     if (!firstTransactionReceipt.events[1].args) return;
@@ -105,7 +105,7 @@ describe("Vrf Raffle scenario with two and two winners", async function () {
     assert(participantsAfterFirstRaffle.length === participantsBefore.length - numberOfWinners, "Participants set cleanup failed after first raffle");
 
     // second raffle
-    const secondTransaction: ContractTransaction = await vrfRaffle.connect(keepersRegistry).requestRandomWords();
+    const secondTransaction: ContractTransaction = await vrfRaffle.connect(keepersRegistry).startRaffle();
     const secondTransactionReceipt: ContractReceipt = await secondTransaction.wait(1);
     if (!secondTransactionReceipt.events) return;
     if (!secondTransactionReceipt.events[1].args) return;
