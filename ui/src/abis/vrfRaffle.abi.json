@@ -1,0 +1,191 @@
+[
+  {
+    "inputs": [
+      { "internalType": "uint64", "name": "subscriptionId", "type": "uint64" },
+      { "internalType": "address", "name": "vrfCoordinator", "type": "address" },
+      { "internalType": "bytes32", "name": "keyHash", "type": "bytes32" },
+      { "internalType": "uint32", "name": "callbackGasLimit", "type": "uint32" },
+      { "internalType": "uint16", "name": "requestConfirmations", "type": "uint16" },
+      { "internalType": "uint32", "name": "numWords", "type": "uint32" },
+      { "internalType": "address", "name": "newOwner", "type": "address" },
+      { "internalType": "address", "name": "pendingOwner", "type": "address" },
+      { "internalType": "address", "name": "keepersRegistry", "type": "address" },
+      { "internalType": "bytes32", "name": "merkleRoot", "type": "bytes32" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [{ "internalType": "bytes32", "name": "hashedTicketConfirmationNumber", "type": "bytes32" }],
+    "name": "AlreadyEntered",
+    "type": "error"
+  },
+  { "inputs": [], "name": "CallerIsNotOwner", "type": "error" },
+  { "inputs": [], "name": "CallerIsNotOwnerNorKeepersRegistry", "type": "error" },
+  { "inputs": [], "name": "CannotSetOwnerToZeroAddress", "type": "error" },
+  { "inputs": [], "name": "CannotTransferToSelf", "type": "error" },
+  {
+    "inputs": [{ "internalType": "bytes32", "name": "hashedTicketConfirmationNumber", "type": "bytes32" }],
+    "name": "InvalidTicket",
+    "type": "error"
+  },
+  { "inputs": [], "name": "MustBeProposedOwner", "type": "error" },
+  { "inputs": [{ "internalType": "uint32", "name": "newNumWords", "type": "uint32" }], "name": "NumberTooHigh", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "have", "type": "address" },
+      { "internalType": "address", "name": "want", "type": "address" }
+    ],
+    "name": "OnlyCoordinatorCanFulfill",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": false, "internalType": "bytes32", "name": "merkleRoot", "type": "bytes32" }],
+    "name": "MerkleRootUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": false, "internalType": "bytes32", "name": "hashedTicketConfirmationNumber", "type": "bytes32" }],
+    "name": "NewParticipant",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": false, "internalType": "uint32", "name": "numWords", "type": "uint32" }],
+    "name": "NumWordsUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "from", "type": "address" },
+      { "indexed": true, "internalType": "address", "name": "to", "type": "address" }
+    ],
+    "name": "OwnershipTransferCanceled",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "from", "type": "address" },
+      { "indexed": true, "internalType": "address", "name": "to", "type": "address" }
+    ],
+    "name": "OwnershipTransferRequested",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "from", "type": "address" },
+      { "indexed": true, "internalType": "address", "name": "to", "type": "address" }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": false, "internalType": "uint256", "name": "requestId", "type": "uint256" }],
+    "name": "RaffleEnded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": false, "internalType": "uint256", "name": "requestId", "type": "uint256" }],
+    "name": "RaffleStarted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": false, "internalType": "bytes32", "name": "hashedTicketConfirmationNumber", "type": "bytes32" }],
+    "name": "RaffleWinner",
+    "type": "event"
+  },
+  { "inputs": [], "name": "acceptOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+  { "inputs": [], "name": "cancelOwnershipTransfer", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "hashedTicketConfirmationNumber", "type": "bytes32" },
+      { "internalType": "bytes32[]", "name": "proof", "type": "bytes32[]" }
+    ],
+    "name": "enterRaffle",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "string", "name": "ticketConfirmationNumber", "type": "string" }],
+    "name": "getHashedTicketConfirmationNumber",
+    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getNumWords",
+    "outputs": [{ "internalType": "uint32", "name": "", "type": "uint32" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getParticipants",
+    "outputs": [{ "internalType": "bytes32[]", "name": "", "type": "bytes32[]" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getPendingOwner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getWinners",
+    "outputs": [{ "internalType": "bytes32[]", "name": "", "type": "bytes32[]" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "requestId", "type": "uint256" },
+      { "internalType": "uint256[]", "name": "randomWords", "type": "uint256[]" }
+    ],
+    "name": "rawFulfillRandomWords",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bytes32", "name": "merkleRoot", "type": "bytes32" }],
+    "name": "setMerkleRoot",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint32", "name": "numWords", "type": "uint32" }],
+    "name": "setNumWords",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  { "inputs": [], "name": "startRaffle", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+  {
+    "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

@@ -1,0 +1,16 @@
+.link {
+  background-color: #1c1c1c;
+  color: #00ff93;
+  border: 2px solid #00ff93;
+  padding: 16px 32px;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  width: 200px;
+}
+
+.link:hover {
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}

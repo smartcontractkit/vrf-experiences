@@ -1,0 +1,62 @@
+._2022-btn {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  /* display: flex; */
+  padding: 16px 32px;
+  background-color: #00ff93;
+  box-shadow: 3px 3px 0 0 #2163ff;
+  -webkit-transition: color 50ms cubic-bezier(0.23, 1, 0.32, 1), background-color 50ms cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 250ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 250ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: color 50ms cubic-bezier(0.23, 1, 0.32, 1), background-color 50ms cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 250ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 250ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: color 50ms cubic-bezier(0.23, 1, 0.32, 1), background-color 50ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 250ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 250ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: color 50ms cubic-bezier(0.23, 1, 0.32, 1), background-color 50ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 250ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 250ms cubic-bezier(0.23, 1, 0.32, 1),
+    -webkit-transform 250ms cubic-bezier(0.23, 1, 0.32, 1);
+  color: #1c1c1c;
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+._2022-btn:hover {
+  background-color: #2163ff;
+  box-shadow: 0 0 0 0 #2163ff;
+  -webkit-transform: translate(4px, 4px);
+  -ms-transform: translate(4px, 4px);
+  transform: translate(4px, 4px);
+  color: #fff;
+}
+
+._2022-btn.hidden {
+  display: none;
+}
+
+._2022-btn:disabled {
+  opacity: 0.2;
+}
+
+._2022-btn-wrapper {
+  display: inline-block;
+  padding-top: 40px;
+}
+
+._2022-btn-wrapper._2022-mobile-button {
+  display: none;
+}
+
+._2022-btn-wrapper.no-top-padding {
+  padding-top: 0px;
+}
+
+._2022-btn-label {
+  padding-right: 16px;
+}
+
+._2022-btn-label.inverse {
+  padding-right: 0px;
+}
