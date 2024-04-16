@@ -7,7 +7,7 @@
     "deploy": "hardhat run --network goerli scripts/deploy.ts"
   },
   "devDependencies": {
-    "@chainlink/contracts": "^0.4.1",
+    "@chainlink/contracts": "^1.1.0-beta.0",
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/providers": "^5.7.0",
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.3",
