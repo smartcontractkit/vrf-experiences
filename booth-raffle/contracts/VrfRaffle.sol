@@ -18,15 +18,16 @@ contract VrfRaffle is VRFConsumerBaseV2, Ownable {
     address internal immutable i_keepersRegistry;
     uint64 internal immutable i_subscriptionId;
     bytes32 internal immutable i_keyHash;
-    bytes32 internal immutable i_merkleRoot;
     uint32 internal immutable i_callbackGasLimit;
     uint16 internal immutable i_requestConfirmations;
 
     uint32 internal s_numWords;
+    bytes32 internal s_merkleRoot;
     EnumerableSet.Bytes32Set internal s_participants;
     EnumerableSet.Bytes32Set internal s_winners;
 
     event NumWordsUpdated(uint32 numWords);
+    event MerkleRootUpdated(bytes32 merkleRoot);
     event NewParticipant(bytes32 hashedTicketConfirmationNumber);
     event RaffleStarted(uint256 requestId);
     event RaffleWinner(bytes32 hashedTicketConfirmationNumber);
@@ -34,7 +35,6 @@ contract VrfRaffle is VRFConsumerBaseV2, Ownable {
 
     error InvalidTicket(bytes32 hashedTicketConfirmationNumber);
     error AlreadyEntered(bytes32 hashedTicketConfirmationNumber);
-    error NumberTooHigh(uint32 newNumWords);
     error CallerIsNotOwnerNorKeepersRegistry();
 
     modifier onlyOwnerOrKeepersRegistry() {
@@ -59,10 +59,10 @@ contract VrfRaffle is VRFConsumerBaseV2, Ownable {
         i_keepersRegistry = keepersRegistry;
         i_subscriptionId = subscriptionId;
         i_keyHash = keyHash;
-        i_merkleRoot = merkleRoot;
         i_callbackGasLimit = callbackGasLimit;
         i_requestConfirmations = requestConfirmations;
         s_numWords = numWords;
+        s_merkleRoot = merkleRoot;
     }
 
     /**
@@ -82,6 +82,21 @@ contract VrfRaffle is VRFConsumerBaseV2, Ownable {
     }
 
     /**
+     * @notice Sets the root of the merkle tree which contains keccak256 hashes of valid ticket confirmation numbers.
+     *
+     * @dev Only owner can call.
+     *
+     * @param merkleRoot - the root of the merkle tree
+     *
+     * No return, reverts on error.
+     */
+    function setMerkleRoot(bytes32 merkleRoot) external onlyOwner {
+        s_merkleRoot = merkleRoot;
+
+        emit MerkleRootUpdated(merkleRoot);
+    }
+
+    /**
      * @notice Allows anyone at the conference to register for participation in the raffle.
      *         Reverts if User already registered.
      *
@@ -97,7 +112,7 @@ contract VrfRaffle is VRFConsumerBaseV2, Ownable {
         if (
             !MerkleProof.verify(
                 proof,
-                i_merkleRoot,
+                s_merkleRoot,
                 hashedTicketConfirmationNumber
             )
         ) revert InvalidTicket(hashedTicketConfirmationNumber);

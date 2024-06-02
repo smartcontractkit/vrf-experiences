@@ -1,0 +1,21 @@
+.text-input {
+  border: "none";
+  width: 250px;
+  font-size: 30px;
+  font-family: "Inter", sans-serif;
+  color: #fff;
+  text-transform: uppercase;
+  text-align: center;
+  height: 70px;
+  margin-bottom: 30px;
+  border-bottom: 3px solid gray;
+  border-right: none;
+  border-left: none;
+  border-top: none;
+  background-color: #1c1c1c;
+}
+
+.text-input::placeholder {
+  text-transform: capitalize;
+  font-size: 17px;
+}
